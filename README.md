@@ -57,3 +57,17 @@ Refer [Nim Compiler User Guide](https://nim-lang.org/docs/nimc.html).
 - [Basic](https://colab.research.google.com/drive/1aNmsJmgnxz-4yr1hT0ZdHh9-XQ_8dcRk)
 - [Make PNG image](https://colab.research.google.com/drive/15w2dtk9QE8QDTsqMeRnWCzR7f2kSseoq)
 - [Make animation PNG using EGL & OpenGL](https://colab.research.google.com/drive/1J0B0qVvovrJZJI1OU75jIMUjWnymi_6G) -->
+
+## Syntax highlight
+> for syntax highlighting inspiration, big thanks 
+> to https://gist.github.com/akshaykhadse/7acc91dd41f52944c6150754e5530c4b
+
+Use `#@title Refer output of this cell. Double-click to hide source.` (you can change the text, of course) 
+in the first line of the cell, so that the raw code is hidden on double-click, leaving only the prettyfied 
+code and the result of its execution.
+
+If you don't want to use syntax highlight, set `NO_SYNTAX_HIGHLIGHT` environment variable to 1.
+```python
+import os
+os.environ['NO_SYNTAX_HIGHLIGHT'] = 1
+```

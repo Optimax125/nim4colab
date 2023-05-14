@@ -1,6 +1,11 @@
+# for syntax highlighting inspiration, big thanks 
+# to https://gist.github.com/akshaykhadse/7acc91dd41f52944c6150754e5530c4b
 from IPython.core.magic import register_cell_magic, register_line_magic, register_line_cell_magic
-from IPython.utils import io
-import pathlib, shutil, subprocess, urllib.request, json, os, sys
+import pathlib, shutil, subprocess, urllib.request, json, os
+from pygments import highlight
+from pygments.lexers import NimrodLexer
+from pygments.formatters import HtmlFormatter
+from IPython.display import display, HTML
 
 def download(url, path):
   with urllib.request.urlopen(url) as response:
@@ -51,6 +56,12 @@ def nimInstallIfNotExist(branch, root):
       break
     print("done")
 
+def displayHTML(html_code):
+    '''
+    Display HTML in notebook
+    '''
+    display(HTML(html_code))
+
 def nimBin(exe, param, branch, root = pathlib.Path.home()):
   nimInstallIfNotExist(branch, root)
   nimDir = getNimDir(branch, root)
@@ -70,6 +81,11 @@ def nimBin(exe, param, branch, root = pathlib.Path.home()):
 def nimRun(param, code, branch):
   nimCode = pathlib.Path.home() / "code.nims"
   nimCode.write_text(code)
+  noHighlight = os.getenv("NO_SYNTAX_HIGHLIGHT")
+  if noHighlight != "1":
+    displayHTML(highlight(code, NimrodLexer(), 
+                          HtmlFormatter(full=True,nobackground=True,style='paraiso-dark')))
+    displayHTML("<hr>")
   nimBin("nim", param + " " + str(nimCode), branch)
 
 @register_line_cell_magic
@@ -107,4 +123,4 @@ def nimbledev(line):
   nimBin("nimble", line, "devel")
 
 def load_ipython_extension(ipython):
-  pass
+  os.system('pip install pygments ipywidgets')
